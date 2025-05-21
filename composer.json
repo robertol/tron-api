@@ -1,5 +1,5 @@
 {
-    "name": "iexbase/tron-api",
+    "name": "robertol/tron-api",
     "description": "A PHP API for interacting with Tron (Trx)",
     "license": "MIT",
     "type":   "library",
@@ -8,6 +8,10 @@
         {
             "name": "Shamsudin Serderov",
             "email": "steein.shamsudin@gmail.com"
+        },
+        {
+            "name": "Roberto Oliveira",
+            "email": "smuxbr@gmail.com"
         }
     ],
     "keywords": [
