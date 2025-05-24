@@ -24,9 +24,9 @@
 
     "require": {
         "php": ">=8.0",
-        "robertol/data-types": "dev-master",
+        "robertol/data-types": "^1.0",
         "guzzlehttp/guzzle": "^7.2",
-        "nanolucas/web3.php": "dev-master",
+        "robertol/web3.php": "^1.0",
         "kornrunner/secp256k1": "^0.3",
         "simplito/elliptic-php": "^1.0",
         "ext-json": "*",
