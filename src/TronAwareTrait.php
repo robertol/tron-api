@@ -117,6 +117,7 @@ trait TronAwareTrait
      * @return int
      */
     public function toTron($double): int {
+        $double = number_format($double, 6, '.', '');
         return (int) bcmul((string)$double, (string)1e6,0);
     }
 
