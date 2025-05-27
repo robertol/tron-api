@@ -554,9 +554,7 @@ class Tron implements TronInterface
     {
         $address = (!is_null($address) ? $this->toHex($address) : $this->address['hex']);
 
-        return $this->manager->request('walletsolidity/getaccount', [
-            'address'   =>  $address
-        ]);
+        return $this->manager->request('v1/accounts/' . $address, [], 'get');
     }
 
     /**
@@ -571,13 +569,9 @@ class Tron implements TronInterface
     {
         $account = $this->getAccount($address);
 
-        if(!array_key_exists('balance', $account)) {
-            return 0;
-        }
-
         return ($fromTron == true ?
-            $this->fromTron($account['balance']) :
-            $account['balance']);
+            $this->fromTron($account['data'][0]['balance']) :
+            $account['data'][0]['balance']);
     }
 
 
@@ -585,31 +579,21 @@ class Tron implements TronInterface
      * Get token balance
      *
      * @param string $address
-     * @param int $tokenId
+     * @param string $contractAddress
      * @param bool $fromTron
      * @return array|int
      * @throws TronException
      */
-    public function getTokenBalance(int $tokenId, string $address, bool $fromTron = false)
-    {
-        $account = $this->getAccount($address);
-
-        if(isset($account['assetV2']) and !empty($account['assetV2']) )
+    public function getTokenBalance(string $contractAddress, string $address, bool $fromTron = false)
         {
-            $value = array_filter($account['assetV2'], function($item) use ($tokenId) {
-                return $item['key'] == $tokenId;
-            });
-
-            if(empty($value)) {
-                throw new TronException('Token id not found');
+            $account = $this->getAccount($address);
+            $balance = 0;
+            $trc20 = $account['data'][0]['trc20'];
+            foreach($trc20 as $token){
+                $balance = $token[$contractAddress];
             }
-
-            $first = array_shift($value);
-            return ($fromTron == true ? $this->fromTron($first['value']) : $first['value']);
+            return $balance;
         }
-
-        return 0;
-    }
 
     /**
      * Query bandwidth information.
